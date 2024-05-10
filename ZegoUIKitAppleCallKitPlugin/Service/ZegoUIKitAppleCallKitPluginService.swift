@@ -1,0 +1,52 @@
+//
+//  ZegoUIKitAppleCallKitPluginService.swift
+//  ZegoUIKitAppleCallKitPluginService
+//
+//  Created by zego on 2024/04/24.
+//
+
+import ZegoPluginAdapter
+
+
+class ZegoUIKitAppleCallKitPluginService: NSObject {
+    
+    static let shared = ZegoUIKitAppleCallKitPluginService()
+    
+    private var notifyWhenAppRunningInBackgroundOrQuit: Bool = false
+    private var isSandboxEnvironment: Bool = false
+        
+    let pluginEventHandlers: NSHashTable<ZegoCallKitPluginEventHandler> = NSHashTable(options: .weakMemory)
+    
+    override init() {
+        super.init()
+    }
+    
+    
+    public func enableVoIP(_ isSandboxEnvironment: Bool){
+        self.isSandboxEnvironment = isSandboxEnvironment
+//    注册 CallKit 回调
+        CallKitManager.shared.delegate = self
+        CallKitManager.shared.enableVoIP(isSandboxEnvironment)
+    }
+    
+    // 注册 CallKit 的回调
+    public func registerPluginEventHandler(_ delegate: ZegoCallKitPluginEventHandler) {
+        pluginEventHandlers.add(delegate)
+    }
+    
+    public func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool) {
+        CallKitManager.shared.reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo)
+    }
+    
+    public func reportCallEnded(with uuid: UUID, reason: Int) {
+        CallKitManager.shared.reportCallEnded(with: uuid, reason: reason)
+    }
+    
+    public func endCall(with uuid: UUID) {
+        CallKitManager.shared.endCall(with: uuid)
+    }
+    
+    public func endAllCalls() {
+        CallKitManager.shared.endAllCalls()
+    }
+}

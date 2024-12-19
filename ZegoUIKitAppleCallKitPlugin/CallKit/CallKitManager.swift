@@ -125,7 +125,12 @@ extension CallKitManager: PKPushRegistryDelegate {
         if cxCallController.callObserver.calls.count > 0 {
             return
         }
-        
+        let appState:String = UIApplication.shared.applicationState == .active ? "active" : (UIApplication.shared.applicationState == .background ? "background" : "restarted")
+
+        let voipData = ["call_id": callID as AnyObject,
+                        "app_state": appState as AnyObject,
+                        "is_voip": 1 as AnyObject,]
+        ReportUtil.sharedInstance().reportEvent("call/invitationReceived", paramsDict: voipData)
         let uuid = UUID()
         self.delegate?.didReceiveIncomingPush(uuid, invitationID: callID, data: data)
         reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo) { error in

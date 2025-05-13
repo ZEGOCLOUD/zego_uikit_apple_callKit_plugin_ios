@@ -11,6 +11,7 @@ import PushKit
 //import ZPNs
 import AVFoundation
 import ZegoPluginAdapter
+import ZegoUIKit
 
 class CallKitManager: NSObject {
     static let shared = CallKitManager()
@@ -51,17 +52,21 @@ class CallKitManager: NSObject {
     func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, completion: ((_ error: Error?) -> Void)? = nil) {
         // busy.
         if cxCallController.callObserver.calls.count > 0 {
+            LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][reportIncomingCall] return for busy", appendTime: true, flush: true)
             return
         }
+        
         let update = CXCallUpdate()
         update.localizedCallerName = title
         update.hasVideo = hasVideo
         update.remoteHandle = .init(type: .generic, value: "")
 
+        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall", appendTime: true, flush: true)
         cxProvider.reportNewIncomingCall(with: uuid, update: update, completion: { error in
+            LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall completion", appendTime: true, flush: true)
             completion?(error)
         })
-        
+        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall after", appendTime: true, flush: true)
     }
     
     func reportCallEnded(with uuid: UUID, reason: Int) {
@@ -127,12 +132,17 @@ extension CallKitManager: PKPushRegistryDelegate {
         }
         let appState:String = UIApplication.shared.applicationState == .active ? "active" : (UIApplication.shared.applicationState == .background ? "background" : "restarted")
 
+        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][pushRegistry] report call/invitationReceived", appendTime: true, flush: true)
         let voipData = ["call_id": callID as AnyObject,
                         "app_state": appState as AnyObject,
                         "is_voip": 1 as AnyObject,]
         ReportUtil.sharedInstance().reportEvent("call/invitationReceived", paramsDict: voipData)
+        
         let uuid = UUID()
+        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][pushRegistry] didReceiveIncomingPush uuid:\(uuid.uuidString)", appendTime: true, flush: true)
         self.delegate?.didReceiveIncomingPush(uuid, invitationID: callID, data: data)
+
+        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][pushRegistry] reportIncomingCall uuid:\(uuid.uuidString), title:\(title), hasVideo:\(hasVideo)", appendTime: true, flush: true)
         reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo) { error in
             completion()
         }

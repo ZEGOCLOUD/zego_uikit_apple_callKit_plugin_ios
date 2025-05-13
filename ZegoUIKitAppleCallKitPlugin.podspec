@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "ZegoUIKitAppleCallKitPlugin"
-  spec.version      = "1.0.1"
+  spec.version      = "1.0.2"
   spec.summary      = "ZegoUIKitAppleCallKitPlugin iOS SDK"
 
   # This description is used to generate tags and improve search results.
@@ -131,4 +131,5 @@ Pod::Spec.new do |spec|
   # spec.dependency "JSONKit", "~> 1.4"
   spec.dependency 'ZegoPluginAdapter'
   spec.dependency 'ZegoUIKitReport', '0.2.10'
+  spec.dependency 'ZegoUIKit','>=2.13.0'
 end

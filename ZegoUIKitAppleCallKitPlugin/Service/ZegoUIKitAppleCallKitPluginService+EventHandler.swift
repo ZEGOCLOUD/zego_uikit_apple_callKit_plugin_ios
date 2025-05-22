@@ -23,7 +23,7 @@ extension ZegoUIKitAppleCallKitPluginService: CallKitManagerDelegate {
     }
     
     func onCallKitAnswerCall(_ action: CallKitAction) {
-        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][ZegoUIKitAppleCallKitPluginService+EventHandler][onCallKitAnswerCall] handler count:\(pluginEventHandlers.allObjects.count)", flush: true)
+        LogManager.sharedInstance().write("[CallKit][CallKitManager][ZegoUIKitAppleCallKitPluginService+EventHandler][onCallKitAnswerCall] handler count:\(pluginEventHandlers.allObjects.count)", flush: true)
         
         for handler in pluginEventHandlers.allObjects {
             handler.onCallKitAnswerCall(action)
@@ -31,7 +31,7 @@ extension ZegoUIKitAppleCallKitPluginService: CallKitManagerDelegate {
     }
     
     func onCallKitEndCall(_ action: CallKitAction) {
-        LogManager.sharedInstance().write(toLog: "[CallKit][CallKitManager][ZegoUIKitAppleCallKitPluginService+EventHandler][onCallKitEndCall] handler count:\(pluginEventHandlers.allObjects.count)", flush: true)
+        LogManager.sharedInstance().write("[CallKit][CallKitManager][ZegoUIKitAppleCallKitPluginService+EventHandler][onCallKitEndCall] handler count:\(pluginEventHandlers.allObjects.count)", flush: true)
 
         for handler in pluginEventHandlers.allObjects {
             handler.onCallKitEndCall(action)

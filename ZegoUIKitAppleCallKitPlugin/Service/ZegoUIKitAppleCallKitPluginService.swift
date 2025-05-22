@@ -6,7 +6,7 @@
 //
 
 import ZegoPluginAdapter
-
+import ZegoUIKit
 
 class ZegoUIKitAppleCallKitPluginService: NSObject {
     
@@ -23,8 +23,10 @@ class ZegoUIKitAppleCallKitPluginService: NSObject {
     
     
     public func enableVoIP(_ isSandboxEnvironment: Bool){
+        LogManager.sharedInstance().write("[CallKit][ZegoUIKitAppleCallKitPluginService][enableVoIP] isSandbox:\(isSandboxEnvironment)", flush: true)
+
         self.isSandboxEnvironment = isSandboxEnvironment
-//    注册 CallKit 回调
+        // 注册 CallKit 回调
         CallKitManager.shared.delegate = self
         CallKitManager.shared.enableVoIP(isSandboxEnvironment)
     }

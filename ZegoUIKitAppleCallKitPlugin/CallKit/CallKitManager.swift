@@ -62,9 +62,9 @@ class CallKitManager: NSObject {
         update.hasVideo = hasVideo
         update.remoteHandle = .init(type: .generic, value: "")
 
-        LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall", flush: true)
+        LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall")
         cxProvider.reportNewIncomingCall(with: uuid, update: update, completion: { error in
-            LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall completion", flush: true)
+            LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall, error: \(String(describing: error))", flush: true)
             completion?(error)
         })
     }

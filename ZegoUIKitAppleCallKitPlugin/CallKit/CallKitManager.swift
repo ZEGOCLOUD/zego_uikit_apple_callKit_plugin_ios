@@ -41,7 +41,7 @@ class CallKitManager: NSObject {
         return controller
     }()
     
-    func enableVoIP(_ isSandboxEnvironment: Bool) {
+    func enableVoIP(isSandboxEnvironment: Bool) {
         self.isSandboxEnvironment = isSandboxEnvironment
         
         if pkPushRegistry == nil {

@@ -22,13 +22,13 @@ class ZegoUIKitAppleCallKitPluginService: NSObject {
     }
     
     
-    public func enableVoIP(_ isSandboxEnvironment: Bool){
+    public func enableVoIP(isSandboxEnvironment: Bool){
         LogManager.sharedInstance().write("[CallKit][ZegoUIKitAppleCallKitPluginService][enableVoIP] isSandbox:\(isSandboxEnvironment)", flush: true)
 
         self.isSandboxEnvironment = isSandboxEnvironment
         // 注册 CallKit 回调
         CallKitManager.shared.delegate = self
-        CallKitManager.shared.enableVoIP(isSandboxEnvironment)
+        CallKitManager.shared.enableVoIP(isSandboxEnvironment: isSandboxEnvironment)
     }
     
     // 注册 CallKit 的回调

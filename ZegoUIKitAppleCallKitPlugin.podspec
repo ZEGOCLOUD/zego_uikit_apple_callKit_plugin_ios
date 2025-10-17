@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "ZegoUIKitAppleCallKitPlugin"
-  spec.version      = "1.0.6"
+  spec.version      = "1.1.0"
   spec.summary      = "ZegoUIKitAppleCallKitPlugin iOS SDK"
 
   # This description is used to generate tags and improve search results.
@@ -26,7 +26,7 @@ Pod::Spec.new do |spec|
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = "ZegoUIKitAppleCallKitPlugin SDK for iOS by ZEGO."
 
-  spec.homepage     = "https://zegocloud.com"
+  spec.homepage     = "https://www.zegocloud.com"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -132,7 +132,7 @@ Pod::Spec.new do |spec|
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
-  spec.dependency 'ZegoPluginAdapter', '>=2.5.5'
+  spec.dependency 'ZegoPluginAdapter', '>=2.6.0'
   spec.dependency 'ZegoUIKitReport', '0.2.10'
   spec.dependency 'ZegoUIKit','>=2.13.4'
 end

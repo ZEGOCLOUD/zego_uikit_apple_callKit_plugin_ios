@@ -31,8 +31,8 @@ public class ZegoUIKitAppleCallKitPlugin: ZegoCallKitPluginProtocol {
     
     // MARK: CallKit
     // 开启 voip, 并传入环境
-    public func enableVoIP(_ isSandboxEnvironment: Bool){
-        service.enableVoIP(isSandboxEnvironment)
+    public func enableVoIP(isSandboxEnvironment: Bool) {
+        service.enableVoIP(isSandboxEnvironment: isSandboxEnvironment)
     }
     
     // 注册 CallKit 的回调

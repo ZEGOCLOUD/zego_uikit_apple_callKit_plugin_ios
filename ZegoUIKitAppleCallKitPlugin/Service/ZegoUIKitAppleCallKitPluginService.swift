@@ -36,8 +36,13 @@ class ZegoUIKitAppleCallKitPluginService: NSObject {
         pluginEventHandlers.add(delegate)
     }
     
+    @available(*, deprecated, message: "Use reportIncomingCall(uuid, title, hasVideo, identifier) instead")
     public func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool) {
         CallKitManager.shared.reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo)
+    }
+    
+    public func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, identifier: String) {
+        CallKitManager.shared.reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo, identifier: identifier)
     }
     
     public func reportCallEnded(with uuid: UUID, reason: Int) {

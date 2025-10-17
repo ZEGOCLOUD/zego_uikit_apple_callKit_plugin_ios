@@ -40,11 +40,15 @@ public class ZegoUIKitAppleCallKitPlugin: ZegoCallKitPluginProtocol {
         service.registerPluginEventHandler(delegate)
     }
     
-    
+    @available(*, deprecated, message: "Use reportIncomingCall(uuid, title, hasVideo, identifier) instead")
     public func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool) {
         service.reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo)
     }
-    
+
+    public func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, identifier: String) {
+        service.reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo, identifier: identifier)
+    }
+
     public func reportCallEnded(with uuid: UUID, reason: Int) {
         service.reportCallEnded(with: uuid, reason: reason)
     }

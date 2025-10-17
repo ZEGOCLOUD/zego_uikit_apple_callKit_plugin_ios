@@ -21,6 +21,8 @@ class CallKitManager: NSObject {
     private var isSandboxEnvironment = false
     private var pkPushRegistry: PKPushRegistry?
     
+    private var reportIdentifierSet = Set<String>()
+    
     private lazy var providerConfiguration: CXProviderConfiguration = {
         let providerConfiguration = CXProviderConfiguration(localizedName: "")
         providerConfiguration.supportsVideo = true
@@ -50,7 +52,19 @@ class CallKitManager: NSObject {
     }
     
     // 收到VoIP推送
+    @available(*, deprecated, message: "Use reportIncomingCall(uuid, title, hasVideo, identifier, completion?) instead")
     func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, completion: ((_ error: Error?) -> Void)? = nil) {
+        reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo, identifier: uuid.uuidString, completion: nil)
+    }
+    
+    func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, identifier: String, completion: ((_ error: Error?) -> Void)? = nil)
+    {
+        // already report
+        if reportIdentifierSet.contains(identifier) {
+            LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] This call:\(identifier) has already been reported", flush: true)
+            return
+        }
+        
         // busy.
         if cxCallController.callObserver.calls.count > 0 {
             LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] return for busy", flush: true)
@@ -62,9 +76,10 @@ class CallKitManager: NSObject {
         update.hasVideo = hasVideo
         update.remoteHandle = .init(type: .generic, value: "")
 
-        LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall")
+        LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall:\(identifier)")
+        reportIdentifierSet.insert(identifier)
         cxProvider.reportNewIncomingCall(with: uuid, update: update, completion: { error in
-            LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall, error: \(String(describing: error))", flush: true)
+            LogManager.sharedInstance().write("[CallKit][CallKitManager][reportIncomingCall] cxProvider reportNewIncomingCall:\(identifier), error: \(String(describing: error))", flush: true)
             completion?(error)
         })
     }
@@ -142,8 +157,9 @@ extension CallKitManager: PKPushRegistryDelegate {
         LogManager.sharedInstance().write("[CallKit][CallKitManager][pushRegistry] didReceiveIncomingPush uuid:\(uuid.uuidString)", flush: true)
         self.delegate?.didReceiveIncomingPush(uuid, invitationID: callID, data: data)
 
-        LogManager.sharedInstance().write("[CallKit][CallKitManager][pushRegistry] reportIncomingCall uuid:\(uuid.uuidString), title:\(title), hasVideo:\(hasVideo)", flush: true)
-        reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo) { error in
+        let callIdentifier = (callID.isEmpty == false) ? callID : uuid.uuidString
+        LogManager.sharedInstance().write("[CallKit][CallKitManager][pushRegistry] reportIncomingCall:\(callIdentifier) uuid:\(uuid.uuidString), title:\(title), hasVideo:\(hasVideo)", flush: true)
+        reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo, identifier: callIdentifier) { error in
             completion()
         }
         

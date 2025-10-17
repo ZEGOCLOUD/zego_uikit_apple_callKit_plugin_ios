@@ -52,11 +52,6 @@ class CallKitManager: NSObject {
     }
     
     // 收到VoIP推送
-    @available(*, deprecated, message: "Use reportIncomingCall(uuid, title, hasVideo, identifier, completion?) instead")
-    func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, completion: ((_ error: Error?) -> Void)? = nil) {
-        reportIncomingCall(with: uuid, title: title, hasVideo: hasVideo, identifier: uuid.uuidString, completion: nil)
-    }
-    
     func reportIncomingCall(with uuid: UUID, title: String, hasVideo: Bool, identifier: String, completion: ((_ error: Error?) -> Void)? = nil)
     {
         // already report

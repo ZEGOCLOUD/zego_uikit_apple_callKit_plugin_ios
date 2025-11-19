@@ -8,10 +8,9 @@
 import Foundation
 import CallKit
 import PushKit
-//import ZPNs
 import AVFoundation
 import ZegoPluginAdapter
-import ZegoUIKit
+import ZegoPrebuiltLog
 
 class CallKitManager: NSObject {
     static let shared = CallKitManager()

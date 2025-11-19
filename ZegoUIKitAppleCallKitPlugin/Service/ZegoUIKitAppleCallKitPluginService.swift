@@ -6,7 +6,7 @@
 //
 
 import ZegoPluginAdapter
-import ZegoUIKit
+import ZegoPrebuiltLog
 
 class ZegoUIKitAppleCallKitPluginService: NSObject {
     

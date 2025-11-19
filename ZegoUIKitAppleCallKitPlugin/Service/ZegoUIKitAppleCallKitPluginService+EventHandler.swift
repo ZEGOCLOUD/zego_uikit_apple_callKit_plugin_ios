@@ -7,7 +7,7 @@
 
 import Foundation
 import ZegoPluginAdapter
-import ZegoUIKit
+import ZegoPrebuiltLog
 
 extension ZegoUIKitAppleCallKitPluginService: CallKitManagerDelegate {
     func didReceiveIncomingPush(_ uuid: UUID, invitationID: String, data: String) {

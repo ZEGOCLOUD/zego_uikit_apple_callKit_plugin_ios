@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "ZegoUIKitAppleCallKitPlugin"
-  spec.version      = "1.1.0"
+  spec.version      = "1.2.0"
   spec.summary      = "ZegoUIKitAppleCallKitPlugin iOS SDK"
 
   # This description is used to generate tags and improve search results.
@@ -131,8 +131,9 @@ Pod::Spec.new do |spec|
   spec.swift_versions = ['5.0']
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  # spec.dependency "JSONKit", "~> 1.4"
-  spec.dependency 'ZegoPluginAdapter', '>=2.6.0'
-  spec.dependency 'ZegoUIKitReport', '>=0.2.10'
-  spec.dependency 'ZegoUIKit','>=2.13.4'
+
+  spec.dependency 'ZegoPluginAdapter', '>= 2.6.0'
+  spec.dependency 'ZegoUIKitReport', '>= 0.2.10'
+  spec.dependency 'ZegoPrebuiltLog'
+
 end
